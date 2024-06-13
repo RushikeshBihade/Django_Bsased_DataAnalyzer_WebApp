@@ -16,7 +16,7 @@ Data Analyzer is a Django-based web application that allows users to upload CSV 
 - plotly
 ## Setup Instructions
 ### 1. Clone the Repository
-    git clone https://github.com/yourusername/data-analyzer.git
+    git clone https://github.com/RushikeshBihade/Django_Bsased_DataAnalyzer_WebApp.git
     cd data-analyzer
 ### 2. Create a Virtual Environment
     python -m venv venv
