@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analyzer</title>
+    <link rel="shortcut icon" href="/static/analysis/img/homepage-fav.png" type="image/x-icon">
+    <link rel="stylesheet" href="/static/analysis/css/style_home.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="left-side">
+                <h1>Best Data Analytics Tool to Transform your Business</h1>
+                <p>Data analytics software enables businesses to effectively utilize data that largely remains untapped
+                    before. A powerful data analytics solution can help with analyzing the untapped data and generate
+                    insights that helps your business in unforeseen ways.</p>
+            </div>
+            <div class="right-side">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="file-input">
+                        {{ form.file }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

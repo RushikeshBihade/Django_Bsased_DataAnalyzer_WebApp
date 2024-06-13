@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Data Analysis Results</title>
+    <link rel="shortcut icon" href="/static/analysis/img/result-fav.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .header,
+        .subheader {
+            background-color: #1C4E80;
+            color: #fff;
+            font-family: "Noto Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 700;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .subheader {
+            text-align: left;
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background-color: #7E909A;
+            color: #202020;
+        }
+
+        .list-group-item {
+            background-color: #f8f9fa;
+        }
+
+        .card-body h3 {
+            background-color: rgb(255, 115, 0);
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .grid-item {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .list-group {
+            padding-left: 20px;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .footer-link {
+            color: #007bff;
+            text-decoration: none;
+            margin: 5px 0;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+            color: rgb(255, 115, 0);
+        }
+
+        .footer-content p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Data Analysis Results</h1>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                First five Rows
+            </div>
+            <div class="card-body">
+                {{ data_summary.first_rows|safe }}
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                Summary Statistics
+            </div>
+            <div class="card-body">
+                <div class="grid-container">
+                    {% for col, stats in data_summary.items %}
+                    {% if col != 'first_rows' and col != 'missing_values' %}
+                    <div class="grid-item">
+                        <h3>{{ col }}</h3>
+                        <ul class="list-group">
+                            {% for stat, value in stats.items %}
+                            <li class="list-group-item">{{ stat }}: {{ value }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                Missing Values
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    {% for col, count in data_summary.missing_values.items %}
+                    <li class="list-group-item">{{ col }}: {{ count }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                Visualizations
+            </div>
+            <div class="card-body grid-container">
+                {% for column, plot in charts_data.items %}
+                <div class="grid-item">
+                    <h3>{{ column }}</h3>
+                    <div id="{{ column }}_chart"></div>
+                    <script type="text/javascript">
+                        var plotData = JSON.parse('{{ plot|escapejs }}');
+                        Plotly.newPlot('{{ column }}_chart', plotData.data, plotData.layout);
+                    </script>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <a href="/" class="footer-link">Home</a>
+                <p>&copy; 2024 Data Analyzer. All rights reserved.</p>
+                <p>For more information, rushikeshbihade09@gmail.com.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
